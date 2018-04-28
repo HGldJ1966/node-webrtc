@@ -292,8 +292,8 @@ NAN_METHOD(PeerConnection::AddTrack) {
   Local<Value> cargv[2];
   cargv[0] = Nan::New<External>(static_cast<void*>(&self->_factory));
   cargv[1] = Nan::New<External>(static_cast<void*>(&rtpSender));
-  auto sender = Nan::ObjectWrap::Unwrap<RTCRtpSender>(
-          Nan::New(RTCRtpSender::constructor)->NewInstance(2, cargv));
+  auto obj = Nan::NewInstance(Nan::New(RTCRtpSender::constructor), 2, cargv).ToLocalChecked();
+  auto sender = Nan::ObjectWrap::Unwrap<RTCRtpSender>(obj);
   sender->AddRef();
   self->_senders.push_back(sender);
   TRACE_END;
